@@ -1,0 +1,8 @@
+I2C	KEYWORD1
+rep_start	KEYWORD2
+write		KEYWORD2
+readAck		KEYWORD2
+readNak		KEYWORD2
+waitTransmission	KEYWORD2
+communicationFailure	KEYWORD2
+

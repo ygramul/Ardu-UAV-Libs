@@ -1,0 +1,5 @@
+RcSuSiReceiver	KEYWORD1
+configureReceiver	KEYWORD2
+readRawRC	KEYWORD2
+isSignalAvailable	KEYWORD2
+

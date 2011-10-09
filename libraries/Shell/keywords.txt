@@ -1,0 +1,8 @@
+Shell	KEYWORD1
+parse_command	KEYWORD2
+add_command	KEYWORD2
+is_writeable	KEYWORD2
+set_readonly    KEYWORD2
+set_readwrite   KEYWORD2
+stop_active_function   KEYWORD2
+
