@@ -1,3 +1,10 @@
+/***********************************************************************************************************/
+/* Just an example for a quadrocopter flight control software with plush 10A ppm ESC, ITG3200 and          */ 
+/* Arduino 328 16 MHz. Sum signal receiver is connected. Everything like on a MWC hardware.                */
+/* Be careful first to switch on the RC! Otherwise it's possible that the motors are starting after 1 sec. */
+/* automatically.                                                                                          */
+/* PID default settings are far from perfect!                                                              */
+/***********************************************************************************************************/
 #define IDLE_THROTTLE 35
 #define MAX_THROTTLE 128
 #define PCB_DIRECTION 315 // Orientation of the flight control board in degrees (should be multible of 45)
@@ -21,8 +28,6 @@
 #include <EEPROM.h>
 #include <Shell.h>
 #include <Kalman.h>
-//#include <NewSoftSerial.h>
-//#include <PacketTransmit.h>
 #include <RcSuSiReceiver.h>
 
 typedef union
@@ -38,14 +43,6 @@ typedef union
   };
 } long_short_param_t;
 
-typedef union {
-  unsigned char packetdescriptor;
-  short channels[4];
-} 
-rc_packet_data;
-
-rc_packet_data CTRL_RcData;
-
 Shell shell;
 ITG3200 itg3200;
 PID rollPid(1, 256);
@@ -56,8 +53,6 @@ Kalman pitchKalman;
 Kalman yawKalman;
 MCMixer mixer;
 RCTransform rcTransform;
-//NewSoftSerial rc(3,4);
-//PacketTransmit transmit;
 RcSuSiReceiver receiver(RC_ROLL,RC_PITCH,RC_THROTTLE,RC_YAW,RC_AUX1,RC_AUX2,RC_CAMPITCH,RC_CAMROLL);
 
 static uint8_t config_version = 001;
@@ -145,12 +140,12 @@ void writeParameter() {
 
 void checkFirstTime() {
   if ( EEPROM.read(0) != config_version ) {
-    pitch_prop.para16 = 25;
+    pitch_prop.para16 = 17;
     pitch_int.para16 = 0;
-    pitch_diff.para16 = 60;
-    roll_prop.para16 = 25;
+    pitch_diff.para16 = 37;
+    roll_prop.para16 = 17;
     roll_int.para16 = 0;
-    roll_diff.para16 = 60;
+    roll_diff.para16 = 37;
     yaw_prop.para16 = 5;
     yaw_int.para16 = 0;
     yaw_diff.para16 = 9;
@@ -159,17 +154,6 @@ void checkFirstTime() {
 }
 
 void computeRC() {
-  /*
-    if (transmit.isDataAvailable()) {
-      stick_throttle = CTRL_RcData.channels[0];
-      stick_roll     = CTRL_RcData.channels[3];
-      stick_pitch    = CTRL_RcData.channels[2];
-      stick_yaw      = CTRL_RcData.channels[1];
-    }
-    if (!transmit.isReceivingInProgress()) {
-      transmit.setReceivingData(&CTRL_RcData, sizeof(CTRL_RcData));
-    }
-    */
     stick_throttle = map(receiver.readScaledRC(RC_THROTTLE), THROTTLE_STICK_MIN, THROTTLE_STICK_MAX, 0, 127);
     stick_roll     = map(receiver.readScaledRC(RC_ROLL), ROLL_STICK_MIN, ROLL_STICK_MAX, -127, 127);
     stick_pitch    = map(receiver.readScaledRC(RC_PITCH), PITCH_STICK_MIN, PITCH_STICK_MAX, -127, 127);
@@ -284,7 +268,6 @@ void setup() {
   stick_pitch = 0;
   stick_yaw = 0;
   per_sec_50tick = 0;
-  //transmit.setReceivingData(&CTRL_RcData, sizeof(CTRL_RcData));
   receiver.configureReceiver();
    
   Serial.println("Init shell");
@@ -328,10 +311,6 @@ void loop() {
       pwm_motor[3] = 0;
     }
     writeMotors();
-//    set_all_pitch_servos();
-//    if (rc.available() && !transmit.isDataAvailable()) {
-//      transmit.setReceivedItem(rc.read());
-//    }
   }
   
   if (currentTime > (serialTime + 20000) ) { // 1000000 / 20000 = 50 Hz Refresh rate of serial input
