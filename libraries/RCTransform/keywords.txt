@@ -1,4 +1,4 @@
 RCTransform	KEYWORD1
-turn_rc_roll	KEYWORD2
-turn_rc_pitch	KEYWORD2
-
+turnRcRoll	KEYWORD2
+turnRcPitch	KEYWORD2
+linToExp	KEYWORD2

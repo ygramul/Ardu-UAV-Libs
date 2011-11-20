@@ -1,6 +1,6 @@
 /*
- * Library for mapping movements on the three axis to motor speed. 
- * Inspired of MultiWiiCopter V 1.7
+ * Library for kalman filter. 
+ * Inspired by http://interactive-matter.eu/2009/12/filtering-sensor-data-with-a-kalman-filter/
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,27 +16,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * 
  */
-#ifndef MCMixer_H
-#define MCMixer_H
+#ifndef Kalman_H
+#define Kalman_H
    
 #include <WProgram.h> //It is very important to remember this!
        
-class MCMixer {
+class Kalman {
 private:
-	int16_t _motor[6];
-        int16_t _min;
-        int16_t _max;
-public:
-	MCMixer();
-	~MCMixer();
-	void mixQuadP(int16_t throttle, int16_t pitch, int16_t roll, int16_t yaw);
-        void setMotorRange(int16_t min, int16_t max); 
-	int16_t getMotor1();
-	int16_t getMotor2();
-	int16_t getMotor3();
-	int16_t getMotor4();
-	int16_t getMotor5();
-	int16_t getMotor6();
+ 	double d1_q; //process noise covariance
+  	double d1_r; //measurement noise covariance
+  	double d1_x; //value
+  	double d1_p; //estimation error covariance
+  	double d1_k; //kalman gain
+ public:
+              Kalman();
+              ~Kalman();
+              void init1D(double q, double r, double p, double intial_value);
+              double update1D(double measurement);
 };
 #endif
 

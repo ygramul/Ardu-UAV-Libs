@@ -88,33 +88,33 @@ private:
   	command_type command_list[MAX_COMMANDLIST_SIZE];
         volatile int last_command;
 
-	void parse_set(String _optionstring);
-	void parse_show(String _optionstring);
-	void parse_help(String _optionstring);
-        void call_callback_func(String _optionstring);
-        int get_property_index(String _property);
-        void list_properties();
-	void show_help();
+	void parseSet(String _optionstring);
+	void parseShow(String _optionstring);
+	void parseHelp(String _optionstring);
+        void callCallbackFunc(String _optionstring);
+        int getPropertyIndex(String _property);
+        void listProperties();
+	void showHelp();
 public:
 	Shell();
 	~Shell();
         // read a complete row and parse it. For example: "set size 10"      
-	void parse_command(const char* _commandstring);
-	void parse_command(uint8_t incomingByte);
+	void parseCommand(const char* _commandstring);
+	void parseCommand(uint8_t incomingByte);
 
 	// add a new command. For example: add_command("size", "to set the size of something", &mysize)
-	int  add_command(const char* _property_name, const char* _help, uint8_t* _property);
-	int  add_command(const char* _property_name, const char* _help, int8_t* _property);
-	int  add_command(const char* _property_name, const char* _help, uint16_t* _property);
-	int  add_command(const char* _property_name, const char* _help, int16_t* _property);
-	int  add_command(const char* _property_name, const char* _help, uint32_t* _property);
-	int  add_command(const char* _property_name, const char* _help, int32_t* _property);
-	int  add_command(const char* _property_name, const char* _help, func_callback_type _callback_function);
-        void stop_active_function();
+	int  addCommand(const char* _property_name, const char* _help, uint8_t* _property);
+	int  addCommand(const char* _property_name, const char* _help, int8_t* _property);
+	int  addCommand(const char* _property_name, const char* _help, uint16_t* _property);
+	int  addCommand(const char* _property_name, const char* _help, int16_t* _property);
+	int  addCommand(const char* _property_name, const char* _help, uint32_t* _property);
+	int  addCommand(const char* _property_name, const char* _help, int32_t* _property);
+	int  addCommand(const char* _property_name, const char* _help, func_callback_type _callback_function);
+        void stopActiveFunction();
 
-        boolean is_writeable();
-        void set_readonly();
-        void set_readwrite();
+        boolean isWriteable();
+        void setReadonly();
+        void setReadwrite();
 };
 #endif
 

@@ -30,7 +30,7 @@ Shell::Shell(){
 Shell::~Shell(){/*nothing to destruct*/}
        
 // read a complete row and parse it. For example: "set size 10"      
-void Shell::parse_command(const char* _commandstring) {
+void Shell::parseCommand(const char* _commandstring) {
   String commandStr = _commandstring;
   String command;
   String options;
@@ -41,25 +41,25 @@ void Shell::parse_command(const char* _commandstring) {
     command = _commandstring;
   }
   if (command.equalsIgnoreCase("show")) {
-    parse_show(options);
+    parseShow(options);
   } else if (command.equalsIgnoreCase("help")) {
     if (options.length() < 1) {
-      show_help();
+      showHelp();
     } else {
-      parse_help(options);
+      parseHelp(options);
     }
   } else if (command.equalsIgnoreCase("set")) {
-    parse_set(options);
+    parseSet(options);
   } else if (command.equalsIgnoreCase("list")) {
-    list_properties();
+    listProperties();
   } else if (command.equalsIgnoreCase("call")) {
-    call_callback_func(options);
+    callCallbackFunc(options);
   } else {
-    show_help();
+    showHelp();
   }
 }
 
-void Shell::show_help() {
+void Shell::showHelp() {
     Serial.println("Available commands:");
     Serial.println("set <property> <value>");
     Serial.println("show <property>");
@@ -68,7 +68,7 @@ void Shell::show_help() {
     Serial.println("list");
 }
 
-void Shell::list_properties() {
+void Shell::listProperties() {
   Serial.println("Available properties:");
   for (int i=0; i < last_command; i++) {
     command_type *single_command = &command_list[i];
@@ -105,7 +105,7 @@ void Shell::list_properties() {
   }
 }
 
-void Shell::parse_set(String _optionstring) {
+void Shell::parseSet(String _optionstring) {
   String optionstring = _optionstring;
   String property;
   String value;
@@ -117,7 +117,7 @@ void Shell::parse_set(String _optionstring) {
     value = optionstring.substring(whitespaceIndex+1);
     char str_value[20]; 
     value.toCharArray(str_value, 20);
-    int index = get_property_index(property); 
+    int index = getPropertyIndex(property); 
     if (index > -1) {
       command_type *single_command = &command_list[index];
       uint8_t type = single_command->type;
@@ -152,8 +152,8 @@ void Shell::parse_set(String _optionstring) {
   }
 }
 
-void Shell::parse_show(String _optionstring) {
-   int index = get_property_index(_optionstring); 
+void Shell::parseShow(String _optionstring) {
+   int index = getPropertyIndex(_optionstring); 
    if (index > -1) {
      command_type *single_command = &command_list[index];
      Serial.print(single_command->property_name);
@@ -190,8 +190,8 @@ void Shell::parse_show(String _optionstring) {
    }
 }
 
-void Shell::call_callback_func(String _optionstring) {
-   int index = get_property_index(_optionstring); 
+void Shell::callCallbackFunc(String _optionstring) {
+   int index = getPropertyIndex(_optionstring); 
    if (index > -1) {
      command_type *single_command = &command_list[index];
      if (single_command->type == FUNC) {
@@ -206,8 +206,8 @@ void Shell::call_callback_func(String _optionstring) {
 }
 
 
-void Shell::parse_help(String _optionstring) {
-   int index = get_property_index(_optionstring); 
+void Shell::parseHelp(String _optionstring) {
+   int index = getPropertyIndex(_optionstring); 
    if (index > -1) {
      command_type *single_command = &command_list[index];
      Serial.println(single_command->help_text);
@@ -217,10 +217,10 @@ void Shell::parse_help(String _optionstring) {
    }
 }
 
-void Shell::parse_command(uint8_t incomingByte) {
+void Shell::parseCommand(uint8_t incomingByte) {
   if (_mode == MODE_FUNCTION) {
     if ((incomingByte==7) || (incomingByte==13) || (incomingByte==10)) {
-      stop_active_function();
+      stopActiveFunction();
     } else {
       _active_callback_func();
     }
@@ -235,13 +235,13 @@ void Shell::parse_command(uint8_t incomingByte) {
         incomingByte = 0;
     }
     if ((incomingByte==13) || (incomingByte==10)) {    
-      parse_command(commandLineBuffer);
+      parseCommand(commandLineBuffer);
       commandLinePtr = 0;
     }
   }
 }
 
-int Shell::get_property_index(String _property) {
+int Shell::getPropertyIndex(String _property) {
   int index = -1;
   if (_property.length() > 0) {
     for (int i=0; i < last_command; i++) {
@@ -257,7 +257,7 @@ int Shell::get_property_index(String _property) {
 }
 
 // add a new command. For example: add_command("size", "to set the size of something", &mysize)
-int Shell::add_command(const char* _property_name, const char* _help, uint8_t* _property) {
+int Shell::addCommand(const char* _property_name, const char* _help, uint8_t* _property) {
   if (last_command < MAX_COMMANDLIST_SIZE) {
     command_type *single_command = &command_list[last_command];
     single_command->property_name   = _property_name;
@@ -268,7 +268,7 @@ int Shell::add_command(const char* _property_name, const char* _help, uint8_t* _
   }
 }
 
-int Shell::add_command(const char* _property_name, const char* _help, int8_t* _property) {
+int Shell::addCommand(const char* _property_name, const char* _help, int8_t* _property) {
   if (last_command < MAX_COMMANDLIST_SIZE) {
     command_type *single_command = &command_list[last_command];
     single_command->property_name   = _property_name;
@@ -279,7 +279,7 @@ int Shell::add_command(const char* _property_name, const char* _help, int8_t* _p
   }
 }
 
-int Shell::add_command(const char* _property_name, const char* _help, uint16_t* _property) {
+int Shell::addCommand(const char* _property_name, const char* _help, uint16_t* _property) {
   if (last_command < MAX_COMMANDLIST_SIZE) {
     command_type *single_command = &command_list[last_command];
     single_command->property_name   = _property_name;
@@ -290,7 +290,7 @@ int Shell::add_command(const char* _property_name, const char* _help, uint16_t* 
   }
 }
 
-int Shell::add_command(const char* _property_name, const char* _help, int16_t* _property) {
+int Shell::addCommand(const char* _property_name, const char* _help, int16_t* _property) {
   if (last_command < MAX_COMMANDLIST_SIZE) {
     command_type *single_command = &command_list[last_command];
     single_command->property_name   = _property_name;
@@ -301,7 +301,7 @@ int Shell::add_command(const char* _property_name, const char* _help, int16_t* _
   }
 }
 
-int Shell::add_command(const char* _property_name, const char* _help, uint32_t* _property) {
+int Shell::addCommand(const char* _property_name, const char* _help, uint32_t* _property) {
   if (last_command < MAX_COMMANDLIST_SIZE) {
     command_type *single_command = &command_list[last_command];
     single_command->property_name   = _property_name;
@@ -312,7 +312,7 @@ int Shell::add_command(const char* _property_name, const char* _help, uint32_t* 
   }
 }
 
-int Shell::add_command(const char* _property_name, const char* _help, int32_t* _property) {
+int Shell::addCommand(const char* _property_name, const char* _help, int32_t* _property) {
   if (last_command < MAX_COMMANDLIST_SIZE) {
     command_type *single_command = &command_list[last_command];
     single_command->property_name   = _property_name;
@@ -323,7 +323,7 @@ int Shell::add_command(const char* _property_name, const char* _help, int32_t* _
   }
 }
 
-int Shell::add_command(const char* _property_name, const char* _help, func_callback_type _callback_function) {
+int Shell::addCommand(const char* _property_name, const char* _help, func_callback_type _callback_function) {
   if (last_command < MAX_COMMANDLIST_SIZE) {
     command_type *single_command = &command_list[last_command];
     single_command->property_name   = _property_name;
@@ -334,19 +334,19 @@ int Shell::add_command(const char* _property_name, const char* _help, func_callb
   }
 }
 
-boolean Shell::is_writeable() {
+boolean Shell::isWriteable() {
   return writeable;
 }
 
-void Shell::set_readonly() {
+void Shell::setReadonly() {
   writeable = false;
 }
 
-void Shell::set_readwrite() {
+void Shell::setReadwrite() {
   writeable = true;
 }
 
-void Shell::stop_active_function() {
+void Shell::stopActiveFunction() {
   _mode = MODE_PARAMETER;
   _active_callback_func = 0;
 }

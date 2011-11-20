@@ -43,7 +43,10 @@ typedef union
   };
   struct
   {
+    // Offset = -35 degrees, 13200 counts. 280 counts/degrees C.
+    //result =35.0 + ((temperature + 13200)/280.0);
     int16_t temperature;
+    //ITG-3200 sensitivity of 14.375 LSBs per °/sec and a full-scale range of ±2000°/sec
     int16_t pitch;
     int16_t roll;
     int16_t yaw;
@@ -66,21 +69,22 @@ public:
 	ITG3200();
 	~ITG3200();
 	void init();
-        itg_t* get_itg_struct();
-	void read_adc();
-	void read_temperature();
-        void calc_adc_offset();
-        int16_t get_pitch_offset();
-        int16_t get_roll_offset();
-        int16_t get_yaw_offset();
-        int16_t get_pitch_calib();
-        int16_t get_roll_calib();
-        int16_t get_yaw_calib();
+        itg_t* getItgStruct();
+	void readAdc();
+	void readTemperature();
+        void calcAdcOffset();
+        int16_t getTemperature();
+        int16_t getPitchOffset();
+        int16_t getRollOffset();
+        int16_t getYawOffset();
+        int16_t getPitchCalib();
+        int16_t getRollCalib();
+        int16_t getYawCalib();
 
-        void i2c_start_callback(func_callback_type_write callback_function);
-        void i2c_write_callback(func_callback_type_write callback_function);
-        void i2c_ack_callback(func_callback_type_read callback_function);
-        void i2c_nack_callback(func_callback_type_read callback_function);
+        void i2cStartCallback(func_callback_type_write callback_function);
+        void i2cWriteCallback(func_callback_type_write callback_function);
+        void i2cAckCallback(func_callback_type_read callback_function);
+        void i2cNackCallback(func_callback_type_read callback_function);
 };
 #endif
 

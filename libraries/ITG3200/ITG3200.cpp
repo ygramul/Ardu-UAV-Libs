@@ -31,19 +31,19 @@ ITG3200::ITG3200(){
 //<<destructor>>
 ITG3200::~ITG3200(){/*nothing to destruct*/}
   
-void ITG3200::i2c_start_callback(func_callback_type_write callback_function) {
+void ITG3200::i2cStartCallback(func_callback_type_write callback_function) {
    rep_start_callback_func = callback_function;
 }
 
-void ITG3200::i2c_write_callback(func_callback_type_write callback_function) {
+void ITG3200::i2cWriteCallback(func_callback_type_write callback_function) {
    write_callback_func = callback_function;
 }
 
-void ITG3200::i2c_ack_callback(func_callback_type_read callback_function) {
+void ITG3200::i2cAckCallback(func_callback_type_read callback_function) {
    read_ack_callback_func = callback_function;
 }
 
-void ITG3200::i2c_nack_callback(func_callback_type_read callback_function) {
+void ITG3200::i2cNackCallback(func_callback_type_read callback_function) {
    read_nack_callback_func = callback_function;
 }
      
@@ -59,11 +59,15 @@ void ITG3200::init(){
   delay(100);
 }
 
-itg_t* ITG3200::get_itg_struct() {
+itg_t* ITG3200::getItgStruct() {
   return &_itg;
 }
 
-void ITG3200::read_adc() {
+int16_t ITG3200::getTemperature() {
+  return _itg.temperature;
+}
+
+void ITG3200::readAdc() {
   rep_start_callback_func(0xD0);     // I2C write direction
   write_callback_func(0x1D);         // Start multiple read
   rep_start_callback_func(0xD0 +1);  // I2C read direction => 1
@@ -76,7 +80,7 @@ void ITG3200::read_adc() {
   _itg.rawADC_ITG3200[6]=read_nack_callback_func();
 }
 
-void ITG3200::read_temperature(){
+void ITG3200::readTemperature(){
   rep_start_callback_func(0xD0);     // I2C write direction
   write_callback_func(0x1B);         // Start multiple read
   rep_start_callback_func(0xD0 +1);  // I2C read direction => 1
@@ -85,12 +89,12 @@ void ITG3200::read_temperature(){
   _itg.rawADC_ITG3200[0]=read_nack_callback_func();
 }
 
-void ITG3200::calc_adc_offset() {
+void ITG3200::calcAdcOffset() {
   int16_t old_roll = 0;
   int16_t old_pitch = 0;
   int16_t old_yaw = 0;
   for (int i=0; i<256; i++) {
-    read_adc();
+    readAdc();
     old_roll = roll_offset;
     roll_offset = (7 * old_roll + (_itg.roll)) / 8;
     old_pitch = pitch_offset;
@@ -101,27 +105,27 @@ void ITG3200::calc_adc_offset() {
   }
 }
 
-int16_t ITG3200::get_pitch_offset() {
+int16_t ITG3200::getPitchOffset() {
   return pitch_offset;
 }
 
-int16_t ITG3200::get_roll_offset() {
+int16_t ITG3200::getRollOffset() {
   return roll_offset;
 }
 
-int16_t ITG3200::get_yaw_offset() {
+int16_t ITG3200::getYawOffset() {
   return yaw_offset;
 }
 
-int16_t ITG3200::get_pitch_calib() {
+int16_t ITG3200::getPitchCalib() {
   return (_itg.pitch - pitch_offset);
 }
 
-int16_t ITG3200::get_roll_calib() {
+int16_t ITG3200::getRollCalib() {
   return (_itg.roll - roll_offset);
 }
 
-int16_t ITG3200::get_yaw_calib() {
+int16_t ITG3200::getYawCalib() {
   return (_itg.yaw - yaw_offset);
 }
 

@@ -1,10 +1,10 @@
 MCMixer	KEYWORD1
-calc_axis2motors	KEYWORD2
-set_motor_range	KEYWORD2
-get_motor1	KEYWORD2
-get_motor2	KEYWORD2
-get_motor3	KEYWORD2
-get_motor4	KEYWORD2
-get_motor5	KEYWORD2
-get_motor6	KEYWORD2
+mixQuadP	KEYWORD2
+setMotorRange	KEYWORD2
+getMotor1	KEYWORD2
+getMotor2	KEYWORD2
+getMotor3	KEYWORD2
+getMotor4	KEYWORD2
+getMotor5	KEYWORD2
+getMotor6	KEYWORD2
 

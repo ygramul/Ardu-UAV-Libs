@@ -1,19 +1,20 @@
 ITG3200	KEYWORD1
 init	KEYWORD2
-calc_adc_offset	KEYWORD2
-get_itg_struct	KEYWORD2
-read_adc	KEYWORD2
-read_temperature	KEYWORD2
-calc_adc_offset	KEYWORD2
-get_pitch_offset	KEYWORD2
-get_roll_offset	KEYWORD2
-get_yaw_offset	KEYWORD2
-get_pitch_calib	KEYWORD2
-get_roll_calib	KEYWORD2
-get_yaw_calib	KEYWORD2
-i2c_start_callback	KEYWORD2
-i2c_write_callback	KEYWORD2
-i2c_ack_callback	KEYWORD2
-i2c_nack_callback	KEYWORD2
+calcAdcOffset	KEYWORD2
+getItgStruct	KEYWORD2
+readAdc		KEYWORD2
+readTemperature	KEYWORD2
+getTemperature	KEYWORD2
+calcAdcOffset	KEYWORD2
+getPitchOffset	KEYWORD2
+getRollOffset	KEYWORD2
+getYawOffset	KEYWORD2
+getPitchCalib	KEYWORD2
+getRollCalib	KEYWORD2
+getYawCalib	KEYWORD2
+i2cStartCallback	KEYWORD2
+i2cWriteCallback	KEYWORD2
+i2cAckCallback	KEYWORD2
+i2cNackCallback	KEYWORD2
 
 

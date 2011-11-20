@@ -23,8 +23,8 @@ void loop () {
   if (currentTime > (rcTime + 20000) ) { // 50Hz
     rcTime = currentTime;
     if (receiver.isSignalAvailable()) {
-      ctrlThrust = (receiver.readRawRC(PITCH)-1000) >> 2;
-      ctrlDirection = ((receiver.readRawRC(ROLL)-1000) >> 2) - 125;
+      ctrlThrust = (receiver.readRawRC(RC_PITCH)-1000) >> 2;
+      ctrlDirection = ((receiver.readRawRC(RC_ROLL)-1000) >> 2) - 125;
     } else {
       ctrlThrust = 0;
       ctrlDirection = 0;

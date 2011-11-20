@@ -1,0 +1,14 @@
+BMA020	KEYWORD1
+i2cStartCallback	KEYWORD2
+i2cWriteCallback	KEYWORD2
+i2cAckCallback	KEYWORD2
+i2cNackCallback	KEYWORD2
+init		KEYWORD2
+readAcc		KEYWORD2
+getRollRaw	KEYWORD2
+getPitchRaw	KEYWORD2
+getYawRaw	KEYWORD2
+getRoll	KEYWORD2
+getPitch	KEYWORD2
+getYaw	KEYWORD2
+

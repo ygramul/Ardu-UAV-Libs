@@ -1,0 +1,10 @@
+PacketTransmit		KEYWORD1
+setTransmittingData	KEYWORD2
+setReceivingData	KEYWORD2
+isDataTransmitted	KEYWORD2
+getNextItem		KEYWORD2
+setReceivedItem		KEYWORD2
+isReceiveError		KEYWORD2
+isDataAvailable		KEYWORD2
+isTransmittingInProgress	KEYWORD2
+isReceivingInProgress	KEYWORD2

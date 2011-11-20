@@ -26,7 +26,7 @@ MCMixer::MCMixer(){
 //<<destructor>>
 MCMixer::~MCMixer(){/*nothing to destruct*/}
        
-void MCMixer::calc_axis2motors(int16_t throttle, int16_t pitch, int16_t roll, int16_t yaw) {
+void MCMixer::mixQuadP(int16_t throttle, int16_t pitch, int16_t roll, int16_t yaw) {
   _motor[0] = throttle + pitch - yaw; //REAR
   _motor[1] = throttle - roll  + yaw; //RIGHT
   _motor[2] = throttle + roll  + yaw; //LEFT
@@ -35,31 +35,31 @@ void MCMixer::calc_axis2motors(int16_t throttle, int16_t pitch, int16_t roll, in
   _motor[5] = 0; 
 }
 
-void MCMixer::set_motor_range(int16_t  min, int16_t  max) {
+void MCMixer::setMotorRange(int16_t  min, int16_t  max) {
   _min = min;
   _max = max;
 } 
        
-int16_t  MCMixer::get_motor1() {
+int16_t  MCMixer::getMotor1() {
   return constrain(_motor[0], _min, _max);
 }
 
-int16_t  MCMixer::get_motor2() {
+int16_t  MCMixer::getMotor2() {
   return constrain(_motor[1], _min, _max);
 }
 
-int16_t  MCMixer::get_motor3() {
+int16_t  MCMixer::getMotor3() {
   return constrain(_motor[2], _min, _max);
 }
 
-int16_t  MCMixer::get_motor4() {
+int16_t  MCMixer::getMotor4() {
   return constrain(_motor[3], _min, _max);
 }
 
-int16_t  MCMixer::get_motor5() {
+int16_t  MCMixer::getMotor5() {
   return constrain(_motor[4], _min, _max);
 }
 
-int16_t  MCMixer::get_motor6() {
+int16_t  MCMixer::getMotor6() {
   return constrain(_motor[5], _min, _max);
 }

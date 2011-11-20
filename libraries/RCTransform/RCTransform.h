@@ -22,10 +22,11 @@
        
 class RCTransform {
 public:
-              RCTransform();
-              ~RCTransform();
-              int16_t turn_rc_roll(int16_t angle, int16_t pitch, int16_t roll);
-              int16_t turn_rc_pitch(int16_t angle, int16_t pitch, int16_t roll);
+	RCTransform();
+	~RCTransform();
+	int16_t turnRcRoll(int16_t angle, int16_t pitch, int16_t roll);
+	int16_t turnRcPitch(int16_t angle, int16_t pitch, int16_t roll);
+	int16_t linToExp(int16_t linear_stick, int16_t range_max);
 };
 #endif
 
