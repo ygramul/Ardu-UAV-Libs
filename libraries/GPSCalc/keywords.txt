@@ -1,0 +1,5 @@
+GPSCalc	KEYWORD1
+getCourse	KEYWORD2
+getDistance	KEYWORD2
+isWithin	KEYWORD2
+getDirectionDiff	KEYWORD2
